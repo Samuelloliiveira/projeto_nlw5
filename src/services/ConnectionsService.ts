@@ -28,6 +28,14 @@ class ConnectionsService {
 
         return connection
     }
+
+    async findByUserId(user_id: string) {
+        const connection = await this.connectionsRepostory.findOne({
+            user_id
+        })
+
+        return connection
+    }
 }
 
 export{ConnectionsService}
