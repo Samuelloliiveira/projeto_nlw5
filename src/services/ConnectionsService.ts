@@ -45,6 +45,24 @@ class ConnectionsService {
 
         return connections
     }
+
+    async findBySocketID(socket_id: string) {
+        const connection = await this.connectionsRepostory.findOne({
+            socket_id
+        })
+
+        return connection
+    }
+
+    async updateAdminID(user_id: string, admin_id: string) {
+        await this.connectionsRepostory.createQueryBuilder()
+            .update(Connection)
+            .set({admin_id})
+            .where("user_id = :user_id", {//os dois pontos(:) define que é um parametro
+                user_id,
+            })
+            .execute()
+    }        
 }
 
 export{ConnectionsService}

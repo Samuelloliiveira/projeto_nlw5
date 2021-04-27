@@ -37,6 +37,7 @@ function call(id) {
 
   socket.emit("admin_user_in_support", params);
 
+  //Populando o html do chat com as mensagens do usuário
   socket.emit("admin_list_messages_by_user", params, (messages) => {
     const divMessages = document.getElementById(
       `allMessages${connection.user_id}`
@@ -45,12 +46,14 @@ function call(id) {
     messages.forEach((message) => {
       const createDiv = document.createElement("div");
 
-      if (message.admin_id === null) {
+      if (message.admin_id === null) {//se for igual a null é mensagem do usuário
+        
+        //manipulando a DOM com HTML, podia usar o Mustache
         createDiv.className = "admin_message_client";
 
         createDiv.innerHTML = `<span>${connection.user.email} </span>`;
         createDiv.innerHTML += `<span>${message.text}</span>`;
-        createDiv.innerHTML += `<span class="admin_date">${dayjs(
+        createDiv.innerHTML += `<span class="admin_date">${dayjs(//Manipulando data, o link da biblioteca está no html admin
           message.created_at
         ).format("DD/MM/YYYY HH:mm:ss")}</span>`;
       } else {
@@ -112,3 +115,5 @@ socket.on("admin_receive_message", (data) => {
 
   divMessages.appendChild(createDiv);
 });
+
+
